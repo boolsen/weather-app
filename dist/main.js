@@ -1,0 +1,1 @@
+new class{async getDataForLocation(o,s){const e=await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\n            ${o}?\n            unitGroup=metric\n            &key=ED6B3JRZXAHT6LQ248SYSWLW9\n            &contentType=json`);this.logDataToConsole(e)}logDataToConsole(o){console.log("test"),console.log(o.json())}};
