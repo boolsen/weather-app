@@ -1,6 +1,8 @@
+import {Icons} from "./Icons.js";
 class WeatherHandler {
     constructor(){
         this.gatheredWeatherData = {};
+        this.icons = new Icons();
     }
     async getDataForLocation(locationName, unitGroup) { // unitGroup: metric / us / uk
         if (unitGroup === undefined) {
@@ -10,7 +12,6 @@ class WeatherHandler {
         const weatherObject = await weatherData.json();
         const locationWeather = new WeatherData(weatherObject);
         this.gatheredWeatherData[locationWeather.locationName] = locationWeather;
-        //this.weatherData.push(new WeatherData(weatherObject));
     }
 }
 
@@ -58,12 +59,34 @@ class DayWeather {
         this.date = date;
         this.cloudCover = cloudCover;
         this.element = this.createElement();
+        this.subElements = this.createSubElements();
+        this.updateSubElements();
     }
 
     createElement() {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('day');
         return dayDiv;
+    }
+
+    createSubElements() {
+        const dateEle = document.createElement('span');
+        dateEle.classList.add('date-text');
+        const iconsEle = document.createElement('div');
+        iconsEle.classList.add('day-icon');
+        const rainMeter = document.createElement('div');
+        rainMeter.classList.add('rain-meter');
+        const rainText = document.createElement('span');
+        rainText.classList.add('rain-text');
+        const tempText = document.createElement('span');
+        tempText.classList.add('temperature-text');
+
+        this.element.append(dateEle,iconsEle,rainMeter,rainText,tempText);
+        return {dateEle,iconsEle,rainMeter,rainText,tempText};
+    }
+
+    updateSubElements() {
+                
     }
 }
 
