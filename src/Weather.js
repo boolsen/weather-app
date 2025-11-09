@@ -1,31 +1,28 @@
 class WeatherHandler {
+    constructor(){
+        this.weatherData = {};
+    }
     async getDataForLocation(locationName, unitGroup) { // unitGroup: metric / us / uk
         if (unitGroup === undefined) {
-            unitGroup = 'us';
+            unitGroup = 'metric';
         }
         const weatherData = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationName}?unitGroup=${unitGroup}&key=ED6B3JRZXAHT6LQ248SYSWLW9&contentType=json`);
         const weatherObject = await weatherData.json();
         console.log(weatherObject);
-        this.weatherData = new WeatherData(weatherObject);
-    }
-
-    logDataToConsole(data) {
-        //console.log(data.json());
+        const locationWeather = new WeatherData(weatherObject);
+        weatherData[locationWeather.locationName] = locationWeather;
+        //this.weatherData.push(new WeatherData(weatherObject));
     }
 }
 
 class WeatherData {
     constructor(weatherData) {
-        this.processTotalData(weatherData);
+        this.locationName = weatherData.address;
+        this.longitude = weatherData.longitude;
+        this.latitude = weatherData.latitude;
+        this.description = weatherData.description;
         this.dayDataArray = this.processDayData(weatherData);
         console.log(this);
-    }
-
-    processTotalData(object){
-        this.longitude = object.longitude;
-        this.latitude = object.latitude;
-        this.locationName = object.address;
-        this.description = object.description;
     }
 
     processDayData(object) {

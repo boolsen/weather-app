@@ -1,7 +1,21 @@
 import {WeatherHandler,WeatherData,DayWeather} from "./Weather.js";
-function test() {
-    return "test";
+import { DOMhandler } from "./DOMhandler.js";
+
+class Controller {
+    constructor() {
+        this.weatherHandler = new WeatherHandler();
+        this.DOMhandler = new DOMhandler();
+    }
+
+    drawForecastsToDom() {
+        const data = this.weatherHandler.weatherData;
+
+        for (let i = 0; i < data.length; i++) {
+            const locationData = data[i];
+            this.DOMhandler.createLocationForecastElement(locationData);            
+        }
+    }
 }
-window.handler = new WeatherHandler();
-window.handler.getDataForLocation('bergen','metric');
-console.log("object:",window.handler);
+
+window.controller = new Controller();
+console.log("object:",window.controller);
