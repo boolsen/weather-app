@@ -8,14 +8,17 @@ class Controller {
     }
 
     drawForecastsToDom() {
-        const data = this.weatherHandler.weatherData;
+        const data = this.weatherHandler.gatheredWeatherData;
+        console.log("data",data);
 
         for (let i = 0; i < data.length; i++) {
             const locationData = data[i];
-            this.DOMhandler.createLocationForecastElement(locationData);            
+            console.log("test");
+            this.DOMhandler.drawToDom(locationData);            
         }
     }
 }
 
 window.controller = new Controller();
+controller.drawForecastsToDom();
 console.log("object:",window.controller);
