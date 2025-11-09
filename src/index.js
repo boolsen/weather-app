@@ -9,16 +9,29 @@ class Controller {
 
     drawForecastsToDom() {
         const data = this.weatherHandler.gatheredWeatherData;
-        console.log("data",data);
+        console.log(data);
 
-        for (let i = 0; i < data.length; i++) {
-            const locationData = data[i];
-            console.log("test");
-            this.DOMhandler.drawToDom(locationData);            
+        for (const locationName in data) {
+            if (Object.prototype.hasOwnProperty.call(data, locationName)) {
+                const location = data[locationName];
+                this.DOMhandler.drawToDom(location);
+            }
         }
     }
 }
 
-window.controller = new Controller();
-controller.drawForecastsToDom();
-console.log("object:",window.controller);
+const controller = new Controller();
+async function testWeather() {
+
+  // Wait for first async call
+  await controller.weatherHandler.getDataForLocation('bergen', 'metric');
+
+  // Wait for second async call
+  await controller.weatherHandler.getDataForLocation('cape verde', 'metric');
+
+  // Run final function after both are complete
+  console.log("drawwing to DOM");
+  controller.drawForecastsToDom();
+}
+
+testWeather();
