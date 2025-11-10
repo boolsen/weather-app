@@ -78,15 +78,29 @@ class DayWeather {
         rainMeter.classList.add('rain-meter');
         const rainText = document.createElement('span');
         rainText.classList.add('rain-text');
-        const tempText = document.createElement('span');
-        tempText.classList.add('temperature-text');
+        const temperatureText = document.createElement('span');
+        temperatureText.classList.add('temperature-text');
 
-        this.element.append(dateEle,iconsEle,rainMeter,rainText,tempText);
-        return {dateEle,iconsEle,rainMeter,rainText,tempText};
+        this.element.append(dateEle,iconsEle,rainMeter,rainText,temperatureText);
+        return {dateEle,iconsEle,rainMeter,rainText,temperatureText: temperatureText};
     }
 
     updateSubElements() {
-                
+        this.subElements.dateEle.textContent = this.date;
+        this.subElements.rainText.textContent = this.precipitation;
+        this.subElements.temperatureText.textContent = this.temp;
+        this.subElements.rainText.textContent = this.precipitation;
+        this.updateweatherIcon();
+        this.updateRainMeter();
+    }
+
+    updateweatherIcon() {
+        //increase size of cloud based on cloud cover
+        //chnage between cloud and raincloud at some precipitation level
+    }
+
+    updateRainMeter() {
+        //fill bar with color based on amount of rain, assign some value as max
     }
 }
 
