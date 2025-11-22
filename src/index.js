@@ -5,6 +5,12 @@ class Controller {
     constructor() {
         this.weatherHandler = new WeatherHandler();
         this.DOMhandler = new DOMhandler();
+        document.querySelector('#search-btn').addEventListener("click",(event) => {
+            const searchText = document.querySelector('#location-search').value;
+            this.weatherHandler.getDataForLocation(searchText);
+            this.DOMhandler.drawToDom(this.weatherHandler.gatheredWeatherData[0]);
+            
+        })
     }
 
     drawForecastsToDom() {
@@ -34,4 +40,4 @@ async function testWeather() {
   controller.drawForecastsToDom();
 }
 
-testWeather();
+//testWeather();

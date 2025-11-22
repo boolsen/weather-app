@@ -91,28 +91,18 @@ class DayWeather {
     updateSubElements() {
         this.subElements.dateEle.textContent = this.date;
         this.subElements.rainText.textContent = this.precipitation;
-        this.subElements.temperatureText.textContent = this.temp;
+        this.subElements.temperatureText.textContent = this.temp + " deg C";
         this.subElements.rainText.textContent = this.precipitation;
-        this.subElements.rainMeter.style.setProperty('--fill', Math.min(100 * this.precipitation/25.1,80) + '%');
         this.updateweatherIcon();
         this.updateRainMeter();
     }
 
     updateweatherIcon() {
-        /* if (this.cloudCover > 0) {
-            if (this.precipitation < 2) {
-                this.subElements.iconsEle.append(this.icons.get("cloud"));
-            } else {
-                this.subElements.iconsEle.append(this.icons.get("rainCloud"));
-            }
-            this.subElements.iconsEle.append(this.icons.get("sun"));
-        } */
-
         this.subElements.iconsEle.append(this.icons.getCompoundIcon(this.precipitation, this.cloudCover));
     }
 
     updateRainMeter() {
-        //fill bar with color based on amount of rain, assign some value as max
+        this.subElements.rainMeter.style.setProperty('--fill', Math.min(100 * this.precipitation/25.1,80) + '%');
     }
 }
 
