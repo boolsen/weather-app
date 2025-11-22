@@ -2,7 +2,6 @@ import {Icons} from "./Icons.js";
 class WeatherHandler {
     constructor(){
         this.gatheredWeatherData = {};
-        this.icons = new Icons();
     }
     async getDataForLocation(locationName, unitGroup) { // unitGroup: metric / us / uk
         if (unitGroup === undefined) {
@@ -33,7 +32,8 @@ class WeatherData {
                 const dayData = daysData[day];
                 const temperature = dayData["temp"];
                 const humidity = dayData["humidity"];
-                const precipitation = dayData["prec"];
+                const precipitation = dayData["precip"];
+                console.log(dayData);
                 const date = dayData["datetime"];
                 const cloudCover = dayData["cloudcover"]
                 const dayWeather = new DayWeather(date,temperature,humidity,precipitation,cloudCover);
@@ -52,12 +52,14 @@ class WeatherData {
 }
 
 class DayWeather {
+    static icons = new Icons();
     constructor(date,temp,humidity,precipitation,cloudCover) {
         this.temp = temp;
         this.humidity = humidity;
         this.precipitation = precipitation;
         this.date = date;
         this.cloudCover = cloudCover;
+        this.icons = DayWeather.icons;
         this.element = this.createElement();
         this.subElements = this.createSubElements();
         this.updateSubElements();
@@ -81,7 +83,8 @@ class DayWeather {
         const temperatureText = document.createElement('span');
         temperatureText.classList.add('temperature-text');
 
-        this.element.append(dateEle,iconsEle,rainMeter,rainText,temperatureText);
+        rainMeter.append(rainText);
+        this.element.append(dateEle,iconsEle,rainMeter,temperatureText);
         return {dateEle,iconsEle,rainMeter,rainText,temperatureText: temperatureText};
     }
 
@@ -90,13 +93,22 @@ class DayWeather {
         this.subElements.rainText.textContent = this.precipitation;
         this.subElements.temperatureText.textContent = this.temp;
         this.subElements.rainText.textContent = this.precipitation;
+        this.subElements.rainMeter.style.setProperty('--fill', Math.min(100 * this.precipitation/25.1,80) + '%');
         this.updateweatherIcon();
         this.updateRainMeter();
     }
 
     updateweatherIcon() {
-        //increase size of cloud based on cloud cover
-        //chnage between cloud and raincloud at some precipitation level
+        /* if (this.cloudCover > 0) {
+            if (this.precipitation < 2) {
+                this.subElements.iconsEle.append(this.icons.get("cloud"));
+            } else {
+                this.subElements.iconsEle.append(this.icons.get("rainCloud"));
+            }
+            this.subElements.iconsEle.append(this.icons.get("sun"));
+        } */
+
+        this.subElements.iconsEle.append(this.icons.getCompoundIcon(this.precipitation, this.cloudCover));
     }
 
     updateRainMeter() {
