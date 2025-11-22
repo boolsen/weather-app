@@ -39,15 +39,12 @@ class Icons {
             sunEle = this.icons["sun"].cloneNode(true);
         }
 
-        // The following way should be used to scale icons
-        const factor = Math.random() * 100 + 40;
-        cloudEle.style.width = Math.max(cloudCoverGrade - 30,0);
-        cloudEle.style.height = Math.max(cloudCoverGrade  - 30,0);
-
 /*         cloudEle.style.bottom = 0;
         cloudEle.style.right = 0; */
 
         if (cloudEle) {
+            cloudEle.style.width = Math.max(cloudCoverGrade - 30,0);
+            cloudEle.style.height = Math.max(cloudCoverGrade  - 30,0);
             iconContainer.append(cloudEle);
         }
         if (sunEle) {

@@ -5,10 +5,21 @@ class Controller {
     constructor() {
         this.weatherHandler = new WeatherHandler();
         this.DOMhandler = new DOMhandler();
-        document.querySelector('#search-btn').addEventListener("click",(event) => {
-            const searchText = document.querySelector('#location-search').value;
-            this.weatherHandler.getDataForLocation(searchText);
-            this.DOMhandler.drawToDom(this.weatherHandler.gatheredWeatherData[0]);
+        document.querySelector('#search-btn').addEventListener("click", async (event) => {
+            event.preventDefault();
+            this.DOMhandler.resetForecastDiv();
+            const searchInput = document.querySelector('#location-search');
+            if (!searchInput) {
+                return;
+            }
+            const searchText = searchInput.value; 
+            if (!searchText) {
+                return;
+            }
+            console.log("running request");
+            const locationWeather = await this.weatherHandler.getDataForLocation(searchText);
+            console.log("request finished");
+            this.DOMhandler.drawToDom(locationWeather);
             
         })
     }
@@ -27,7 +38,7 @@ class Controller {
 }
 
 const controller = new Controller();
-async function testWeather() {
+/* async function testWeather() {
 
   // Wait for first async call
   await controller.weatherHandler.getDataForLocation('bergen', 'metric');
@@ -38,6 +49,6 @@ async function testWeather() {
   // Run final function after both are complete
   console.log("drawwing to DOM");
   controller.drawForecastsToDom();
-}
+} */
 
 //testWeather();

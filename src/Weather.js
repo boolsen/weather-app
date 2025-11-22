@@ -11,6 +11,8 @@ class WeatherHandler {
         const weatherObject = await weatherData.json();
         const locationWeather = new WeatherData(weatherObject);
         this.gatheredWeatherData[locationWeather.locationName] = locationWeather;
+
+        return locationWeather;
     }
 }
 
